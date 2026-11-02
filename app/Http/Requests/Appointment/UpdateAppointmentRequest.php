@@ -17,18 +17,12 @@ class UpdateAppointmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-
-            'patient_id' => ['sometimes', 'required', 'uuid'],
-
-            'doctor_id' => ['sometimes', 'required', 'uuid'],
-
-            'appointment_date' => ['sometimes', 'nullable', 'date', 'after_or_equal:today'],
-
-            'time_slot' => ['sometimes', 'nullable', 'string', 'max:50'],
-
-            'status' => ['sometimes', 'nullable', Rule::in(['pending', 'confirmed', 'attended', 'cancelled', 'no_show',])],
-
-            'notes' => ['sometimes', 'nullable', 'string', 'max:2000'],
+            'patient_id' => ['nullable', 'uuid', 'exists:patients,id'],
+            'user_id' => ['nullable', 'uuid', 'exists:users,id'],
+            'appointment_date' => ['nullable', 'date', 'after_or_equal:today'],
+            'appointment_time' => ['nullable', 'date_format:H:i'],
+            'consultation_fee' => ['nullable', 'numeric', 'min:0', 'decimal:0,2'],
+            'status' => ['sometimes', 'nullable', Rule::in(['pending', 'checked_in', 'in_consultation', 'completed', 'cancelled'])],
         ];
     }
 }

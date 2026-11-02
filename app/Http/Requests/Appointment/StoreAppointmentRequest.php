@@ -9,23 +9,18 @@ class StoreAppointmentRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return true;
     }
 
     public function rules(): array
     {
         return [
-            'patient_id'       => ['required', 'uuid'],
-
-            'doctor_id'        => ['required', 'uuid'],
-
+            'patient_id' => ['required', 'uuid', 'exists:patients,id'],
+            'user_id' => ['required', 'uuid', 'exists:users,id'],
             'appointment_date' => ['required', 'date', 'after_or_equal:today'],
-
-            'time_slot'        => ['required', 'string', 'max:50'],
-
-            'status'           => ['sometimes', 'required', Rule::in(['pending', 'confirmed', 'attended', 'cancelled', 'no_show'])],
-            
-            'notes'            => ['nullable', 'string', 'max:2000'],
+            'appointment_time' => ['required', 'date_format:H:i'],
+            'consultation_fee' => ['required', 'numeric', 'min:0', 'decimal:0,2'],
+            'status' => ['sometimes', 'required', Rule::in(['pending', 'checked_in', 'in_consultation', 'completed', 'cancelled'])],
         ];
     }
 }

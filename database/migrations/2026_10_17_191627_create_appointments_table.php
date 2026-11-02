@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignUuid('clinic_id')->constrained('clinics')->cascadeOnDelete();
             $table->foreignUuid('patient_id')->constrained('patients')->cascadeOnDelete();
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
-            $table->dateTime('appointment_date');
-            $table->string('time_slot');
-            $table->enum('status', [ 'pending', 'No Show','Attended','Confirmed', 'cancelled'])->default('pending');
-            $table->text('notes')->nullable();
+            $table->date('appointment_date');
+            $table->time('appointment_time');
+            $table->decimal('consultation_fee', 8, 2);
+            $table->enum('status', ['pending', 'checked_in', 'in_consultation', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }
