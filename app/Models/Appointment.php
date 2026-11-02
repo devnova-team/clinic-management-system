@@ -11,9 +11,9 @@ class Appointment extends Model
         'patient_id',
         'user_id',
         'appointment_date',
-        'time_slot',
+        'appointment_time',
+        'consultation_fee',
         'status',
-        'notes',
     ];
     public function clinic()
     {

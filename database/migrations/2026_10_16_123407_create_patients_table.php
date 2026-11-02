@@ -12,8 +12,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('clinic_id')->constrained('clinics')->cascadeOnDelete();
             $table->string('name');
-            $table->string('national_id')->unique(); 
-            $table->string('phone')->nullable();
+            $table->string('national_id')->unique()->index(); 
+            $table->string('phone')->nullable()->index();
             $table->timestamps();
         });
     }

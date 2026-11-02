@@ -1,10 +1,11 @@
-
 <?php
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\UserManagementController;
+use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -27,7 +28,6 @@ Route::middleware(['auth:sanctum', 'tenant', 'role:owner'])->group(function () {
 
     // Patients
     Route::prefix('patients')->controller(PatientController::class)->group(function () {
-
         Route::get('/', 'getAllPatients');
         Route::get('/{patientId}', 'getPatientById');
         Route::post('/', 'createPatient');
@@ -37,11 +37,22 @@ Route::middleware(['auth:sanctum', 'tenant', 'role:owner'])->group(function () {
 
     // UserManagement
     Route::prefix('users')->controller(UserManagementController::class)->group(function () {
-
         Route::get('/', 'getAllUsers');
         Route::get('/{userId}', 'getUserById');
         Route::post('/', 'createUser');
         Route::put('/{userId}', 'updateUser');
         Route::delete('/{userId}', 'deleteUser');
+    });
+});
+
+
+Route::middleware(['auth:sanctum', 'tenant', 'role:owner,receptionist'])->group(function () {
+
+    Route::prefix('appointments')->controller(AppointmentController::class)->group(function () {
+        Route::get('/', 'getAllAppointments');
+        Route::get('/{appointmentId}', 'getAppointmentId');
+        Route::post('/', 'createAppointment');
+        Route::put('/{appointmentId}', 'updateAppointment');
+        Route::delete('/{appointmentId}', 'deleteAppointment');
     });
 });
